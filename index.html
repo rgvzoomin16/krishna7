@@ -1,0 +1,264 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>For My Love</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --paper: #f8f5f0;
+      --ink: #28231f;
+      --rose: #b4646f;
+      --blush: #f2e8e9;
+      --card: rgba(255, 255, 255, 0.68);
+      --shadow: 0 18px 45px rgba(51, 35, 36, 0.15);
+      --line: rgba(40, 35, 31, 0.14);
+    }
+
+    * { box-sizing: border-box; }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at 18% 9%, #fff8f8 0%, transparent 38%),
+        radial-gradient(circle at 82% 20%, #f9f2f2 0%, transparent 32%),
+        linear-gradient(180deg, #fdfaf8 0%, var(--paper) 55%, #f7f2ed 100%);
+      font-family: 'Inter', sans-serif;
+      line-height: 1.65;
+      overflow-x: hidden;
+    }
+
+    .grain {
+      pointer-events: none;
+      position: fixed;
+      inset: 0;
+      background-image: radial-gradient(rgba(45, 26, 29, 0.06) 0.45px, transparent 0.45px);
+      background-size: 4px 4px;
+      opacity: 0.17;
+      z-index: -1;
+    }
+
+    .hero {
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      padding: 7rem 1.5rem 5rem;
+    }
+
+    .letter {
+      width: min(920px, 100%);
+      background: var(--card);
+      border: 1px solid rgba(255, 255, 255, 0.55);
+      border-radius: 24px;
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(2px);
+      padding: clamp(1.5rem, 4vw, 4rem);
+      position: relative;
+      overflow: hidden;
+      transform: translateY(26px);
+      opacity: 0;
+      transition: transform 900ms ease, opacity 900ms ease;
+    }
+
+    .letter.is-visible {
+      transform: translateY(0);
+      opacity: 1;
+    }
+
+    .letter::before,
+    .letter::after {
+      content: "";
+      position: absolute;
+      border-radius: 50%;
+      background: linear-gradient(135deg, rgba(180, 100, 111, 0.12), rgba(255,255,255,0));
+      pointer-events: none;
+    }
+
+    .letter::before {
+      width: 260px;
+      height: 260px;
+      top: -120px;
+      right: -80px;
+    }
+
+    .letter::after {
+      width: 160px;
+      height: 160px;
+      left: -45px;
+      bottom: -55px;
+    }
+
+    .eyebrow {
+      margin: 0;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      font-size: 0.75rem;
+      font-weight: 500;
+      color: var(--rose);
+    }
+
+    h1, h2 {
+      font-family: 'Cormorant Garamond', serif;
+      line-height: 1.05;
+      margin: 0;
+      color: #1f1a17;
+      font-weight: 600;
+    }
+
+    h1 {
+      font-size: clamp(2.2rem, 8vw, 5.3rem);
+      margin-top: 0.75rem;
+      max-width: 14ch;
+      text-wrap: balance;
+    }
+
+    .lede {
+      margin-top: 1.25rem;
+      font-size: clamp(1rem, 2vw, 1.2rem);
+      max-width: 58ch;
+      color: rgba(40, 35, 31, 0.88);
+    }
+
+    .divider {
+      margin: 2rem 0;
+      border: none;
+      border-top: 1px solid var(--line);
+    }
+
+    .moments {
+      display: grid;
+      gap: 1rem;
+      grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+    }
+
+    .moment {
+      padding: 1rem 1rem 1.2rem;
+      border-radius: 14px;
+      background: rgba(255, 255, 255, 0.74);
+      box-shadow: 0 8px 24px rgba(57, 33, 36, 0.08);
+      border: 1px solid rgba(255,255,255,0.85);
+      transform: translateY(18px);
+      opacity: 0;
+      transition: transform 700ms ease, opacity 700ms ease;
+    }
+
+    .moment.is-visible {
+      transform: translateY(0);
+      opacity: 1;
+    }
+
+    .moment-title {
+      margin: 0;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.45rem;
+      font-weight: 600;
+    }
+
+    .moment p {
+      margin: 0.4rem 0 0;
+      font-size: 0.95rem;
+      color: rgba(40, 35, 31, 0.82);
+    }
+
+    .closing {
+      margin-top: 2.2rem;
+      padding: 1.2rem 1.25rem;
+      border-left: 3px solid var(--rose);
+      background: linear-gradient(90deg, rgba(180, 100, 111, 0.09), rgba(255, 255, 255, 0.4));
+      border-radius: 0 12px 12px 0;
+      font-size: 1.03rem;
+    }
+
+    .signature {
+      margin-top: 1.4rem;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.45rem;
+      color: #362627;
+      font-style: italic;
+    }
+
+    .floating-heart {
+      position: fixed;
+      bottom: 1.4rem;
+      right: 1.3rem;
+      background: #fff;
+      border: 1px solid #f0dede;
+      border-radius: 999px;
+      box-shadow: 0 8px 20px rgba(107, 46, 55, 0.15);
+      color: var(--rose);
+      width: 46px;
+      height: 46px;
+      display: grid;
+      place-items: center;
+      font-size: 1.2rem;
+      text-decoration: none;
+      transition: transform 240ms ease;
+    }
+
+    .floating-heart:hover { transform: translateY(-3px) scale(1.04); }
+
+    @media (max-width: 640px) {
+      .hero { padding-top: 5.5rem; }
+    }
+  </style>
+</head>
+<body>
+  <div class="grain"></div>
+
+  <main class="hero" id="top">
+    <article class="letter reveal">
+      <p class="eyebrow">A little editorial note</p>
+      <h1>To the one who makes ordinary days feel cinematic.</h1>
+      <p class="lede">
+        If love had a design language, it would look like this: quiet spaces, soft light, timeless words, and the gentle rhythm of us.
+      </p>
+
+      <hr class="divider" />
+
+      <section class="moments">
+        <div class="moment reveal" style="transition-delay: 80ms;">
+          <h2 class="moment-title">Your Smile</h2>
+          <p>My favorite sunrise, even at midnight.</p>
+        </div>
+        <div class="moment reveal" style="transition-delay: 170ms;">
+          <h2 class="moment-title">Your Voice</h2>
+          <p>The calm that finds me before my thoughts do.</p>
+        </div>
+        <div class="moment reveal" style="transition-delay: 260ms;">
+          <h2 class="moment-title">Your Heart</h2>
+          <p>Home, in every language I know.</p>
+        </div>
+      </section>
+
+      <p class="closing reveal" style="transition-delay: 320ms;">
+        Surprise: this page may be simple, but every line was written for you. Scroll slowly, breathe deeply, and remember—my favorite place has always been right next to you.
+      </p>
+
+      <p class="signature reveal" style="transition-delay: 420ms;">Forever yours ♥</p>
+    </article>
+  </main>
+
+  <a href="#top" class="floating-heart" aria-label="Back to top">♥</a>
+
+  <script>
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('is-visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.2 });
+
+    document.querySelectorAll('.reveal').forEach((el) => observer.observe(el));
+  </script>
+</body>
+</html>
